@@ -48,3 +48,32 @@ export interface DimensionScore {
   firstScore: number;  // E, S, T, J
   secondScore: number; // I, N, F, P
 }
+
+// =====================
+// Auth Types
+// =====================
+
+export interface AuthUser {
+  id: string;
+  email: string | null;
+  nickname: string;
+  profileImage: string | null;
+}
+
+export interface JwtPayload {
+  sub: string; // user id
+  email: string | null;
+  nickname: string;
+  iat: number;
+  exp: number;
+}
+
+export interface AuthResponse {
+  user: AuthUser;
+  message?: string;
+}
+
+export interface ApiErrorResponse {
+  error: string;
+  code?: string;
+}

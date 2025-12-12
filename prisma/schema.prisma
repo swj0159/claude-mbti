@@ -1,0 +1,50 @@
+// Prisma 스키마 - Neon PostgreSQL
+// https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 사용자 기본 정보
+model User {
+  id           String   @id @default(cuid())
+  email        String?  @unique
+  nickname     String
+  profileImage String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // 이메일/비밀번호 인증 (선택)
+  credential     Credential?
+  // 소셜 로그인 계정들
+  socialAccounts SocialAccount[]
+
+  @@map("users")
+}
+
+// 이메일/비밀번호 인증 정보
+model Credential {
+  id           String @id @default(cuid())
+  userId       String @unique
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  passwordHash String
+
+  @@map("credentials")
+}
+
+// 소셜 로그인 계정 (카카오, 구글 등 확장 가능)
+model SocialAccount {
+  id         String @id @default(cuid())
+  userId     String
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider   String // "kakao", "google", etc.
+  providerId String // 소셜 서비스의 고유 사용자 ID
+
+  @@unique([provider, providerId])
+  @@map("social_accounts")
+}
