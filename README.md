@@ -24,7 +24,7 @@ MBTI Lab은 사용자가 20개의 질문에 답하면 16가지 MBTI 성격 유�
 ### 특징
 
 - ⚡ **빠른 테스트**: 20개 질문으로 약 5분 안에 완료
-- 🔒 **개인정보 보호**: 회원가입 불필요, 개인정보 수집 없음
+- 🔐 **회원 시스템**: 이메일/비밀번호 또는 카카오 로그인 지원
 - 💾 **진행 상태 저장**: 테스트 중간에 나가도 돌아오면 이어서 진행
 - 📊 **상세한 결과**: 유형별 특징, 강점, 약점, 추천 직업 등 제공
 - 📤 **공유 기능**: 결과를 이미지로 저장하고 SNS에 공유
@@ -58,6 +58,13 @@ MBTI Lab은 사용자가 20개의 질문에 답하면 16가지 MBTI 성격 유�
 - 카카오톡, 트위터, 페이스북 공유
 - URL 복사
 
+### 5. 회원 시스템
+
+- 이메일/비밀번호 회원가입 및 로그인
+- 카카오 OAuth 소셜 로그인
+- JWT 기반 인증 (Access Token + Refresh Token)
+- 로그인 상태 유지
+
 ## 🛠 기술 스택
 
 ### Frontend
@@ -72,17 +79,21 @@ MBTI Lab은 사용자가 20개의 질문에 답하면 16가지 MBTI 성격 유�
 
 ### Backend
 
-| 기술               | 설명              |
-| ------------------ | ----------------- |
-| Next.js API Routes | Serverless API    |
-| In-Memory Storage  | MVP용 임시 저장소 |
+| 기술               | 버전   | 설명                      |
+| ------------------ | ------ | ------------------------- |
+| Next.js API Routes | -      | Serverless API            |
+| Prisma             | 6.19.x | ORM                       |
+| PostgreSQL         | 15+    | 데이터베이스              |
+| JWT (jose)         | 6.x    | 인증 토큰                 |
+| bcryptjs           | 3.x    | 비밀번호 해싱             |
 
 ### Infrastructure
 
-| 기술         | 설명             |
-| ------------ | ---------------- |
-| Vercel       | 호스팅 및 배포   |
-| GitHub Pages | 정적 배포 (대안) |
+| 기술           | 설명                    |
+| -------------- | ----------------------- |
+| Vercel         | 호스팅 및 배포          |
+| Docker Compose | 로컬 PostgreSQL 환경    |
+| GitHub Pages   | 정적 배포 (대안)        |
 
 ## 🚀 시작하기
 
@@ -90,6 +101,7 @@ MBTI Lab은 사용자가 20개의 질문에 답하면 16가지 MBTI 성격 유�
 
 - Node.js 18.x 이상
 - pnpm (권장) 또는 npm
+- Docker & Docker Compose (데이터베이스용)
 
 ### 설치
 
@@ -100,6 +112,16 @@ cd mbti-lab
 
 # 의존성 설치
 pnpm install
+
+# 환경 변수 설정
+cp .env.example .env
+# .env 파일을 열어 비밀값 수정
+
+# PostgreSQL 실행 (Docker)
+docker-compose up -d
+
+# Prisma 마이그레이션
+npx prisma migrate dev
 
 # 개발 서버 실행
 pnpm dev
@@ -125,42 +147,49 @@ pnpm lint
 
 ## 📁 프로젝트 구조
 
-```
+```text
 src/
 ├── app/                          # Next.js App Router
 │   ├── page.tsx                 # 랜딩 페이지 (/)
 │   ├── layout.tsx               # 루트 레이아웃
-│   ├── test/
-│   │   └── page.tsx             # 테스트 페이지 (/test)
-│   ├── result/
-│   │   └── page.tsx             # 결과 페이지 (/result)
+│   ├── login/page.tsx           # 로그인 페이지
+│   ├── register/page.tsx        # 회원가입 페이지
+│   ├── test/page.tsx            # 테스트 페이지
+│   ├── result/page.tsx          # 결과 페이지
 │   └── api/                     # API Routes
-│       ├── submit-result/
-│       │   └── route.ts         # 결과 제출 API
-│       └── statistics/
-│           └── route.ts         # 통계 조회 API
+│       ├── auth/                # 인증 API
+│       │   ├── register/        # 회원가입
+│       │   ├── login/           # 로그인
+│       │   ├── logout/          # 로그아웃
+│       │   ├── refresh/         # 토큰 갱신
+│       │   ├── me/              # 내 정보 조회
+│       │   └── kakao/           # 카카오 OAuth
+│       ├── submit-result/       # 결과 제출 API
+│       └── statistics/          # 통계 조회 API
 ├── components/                   # 재사용 컴포넌트
 │   ├── ui/                      # 기본 UI
-│   │   ├── Header.tsx
-│   │   ├── Footer.tsx
-│   │   ├── ThemeToggle.tsx
-│   │   └── ResumeTestModal.tsx
+│   ├── auth/                    # 인증 관련
+│   │   ├── LoginForm.tsx
+│   │   ├── RegisterForm.tsx
+│   │   └── KakaoLoginButton.tsx
 │   ├── test/                    # 테스트 관련
-│   │   ├── QuestionCard.tsx
-│   │   └── ProgressBar.tsx
 │   └── result/                  # 결과 관련
-│       ├── TypeCard.tsx
-│       ├── TabContent.tsx
-│       ├── StatisticsChart.tsx
-│       └── ShareButtons.tsx
 ├── lib/                         # 유틸리티
+│   ├── auth/                    # 인증 유틸리티
+│   │   ├── jwt.ts               # JWT 토큰 관리
+│   │   ├── cookies.ts           # 쿠키 헬퍼
+│   │   └── kakao.ts             # 카카오 OAuth
+│   ├── db.ts                    # Prisma 클라이언트
 │   ├── mbti.ts                  # MBTI 계산 로직
-│   ├── mbtiTypes.ts             # 16가지 유형 데이터
-│   ├── questions.ts             # 질문 데이터 (20문항)
-│   ├── types.ts                 # TypeScript 타입 정의
-│   └── imageGenerator.ts        # 결과 이미지 생성
-└── stores/                      # 상태 관리
-    └── testStore.ts             # Zustand 스토어
+│   ├── questions.ts             # 질문 데이터
+│   └── types.ts                 # TypeScript 타입
+├── hooks/                       # React Hooks
+│   └── useUser.ts               # 사용자 상태 훅
+├── stores/                      # 상태 관리
+│   └── testStore.ts
+├── middleware.ts                # 인증 미들웨어
+└── prisma/
+    └── schema.prisma            # DB 스키마
 ```
 
 ## 📚 API 문서
@@ -251,22 +280,103 @@ interface StatisticsResponse {
 curl http://localhost:3000/api/statistics
 ```
 
-## 🔧 환경 변수
+---
 
-프로젝트 루트에 `.env.local` 파일을 생성하고 다음 변수를 설정하세요:
+### 인증 API
 
-```env
-# 데이터베이스 (프로덕션용)
-DATABASE_URL=postgresql://user:password@host:5432/dbname
+#### POST /api/auth/register
 
-# 카카오 SDK (공유 기능용)
-KAKAO_APP_KEY=your_kakao_app_key
+이메일/비밀번호로 회원가입합니다.
 
-# 사이트 URL (공유 링크 생성용)
-NEXT_PUBLIC_SITE_URL=https://your-domain.com
+```typescript
+// Request
+{ email: string, password: string, nickname: string }
+
+// Response (201)
+{ user: { id, email, nickname }, message: "회원가입 성공" }
 ```
 
-> **참고**: 현재 MVP 버전에서는 인메모리 저장소를 사용하므로 `DATABASE_URL`은 선택사항입니다.
+#### POST /api/auth/login
+
+로그인하여 JWT 토큰을 발급받습니다. (쿠키에 자동 저장)
+
+```typescript
+// Request
+{ email: string, password: string }
+
+// Response (200)
+{ user: { id, email, nickname }, message: "로그인 성공" }
+```
+
+#### POST /api/auth/logout
+
+로그아웃하고 토큰 쿠키를 삭제합니다.
+
+```typescript
+// Response (200)
+{ message: "로그아웃 성공" }
+```
+
+#### POST /api/auth/refresh
+
+Refresh Token으로 Access Token을 갱신합니다.
+
+```typescript
+// Response (200)
+{ message: "토큰 갱신 성공" }
+```
+
+#### GET /api/auth/me
+
+현재 로그인한 사용자 정보를 조회합니다.
+
+```typescript
+// Response (200)
+{ user: { id, email, nickname, profileImage } }
+```
+
+#### GET /api/auth/kakao
+
+카카오 OAuth 인증 페이지로 리다이렉트합니다.
+
+#### GET /api/auth/kakao/callback
+
+카카오 인증 완료 후 콜백을 처리합니다.
+
+## 🔧 환경 변수
+
+`.env.example`을 참고하여 `.env` 파일을 생성하세요:
+
+```env
+# Database (Docker Compose용)
+POSTGRES_USER=mbti
+POSTGRES_PASSWORD=your-secure-password
+POSTGRES_DB=mbti_db
+
+# Database URL (Prisma용)
+DATABASE_URL="postgresql://mbti:your-secure-password@localhost:5432/mbti_db"
+
+# JWT Secrets (openssl rand -base64 32 로 생성)
+JWT_SECRET="your-jwt-secret-key-min-32-chars"
+JWT_REFRESH_SECRET="your-refresh-secret-key-min-32-chars"
+
+# App URL
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+
+# Kakao OAuth (https://developers.kakao.com)
+NEXT_PUBLIC_KAKAO_CLIENT_ID=your-kakao-rest-api-key
+KAKAO_CLIENT_ID="your-kakao-rest-api-key"
+KAKAO_CLIENT_SECRET="your-kakao-client-secret"
+```
+
+| 변수                        | 필수 | 설명                     |
+| --------------------------- | ---- | ------------------------ |
+| DATABASE_URL                | ✅   | PostgreSQL 연결 문자열   |
+| JWT_SECRET                  | ✅   | Access Token 서명 키     |
+| JWT_REFRESH_SECRET          | ✅   | Refresh Token 서명 키    |
+| NEXT_PUBLIC_BASE_URL        | ✅   | 앱 기본 URL              |
+| KAKAO_CLIENT_ID             | ❌   | 카카오 로그인 시 필요    |
+| KAKAO_CLIENT_SECRET         | ❌   | 카카오 로그인 시 필요    |
 
 ## 📦 배포
 
@@ -302,7 +412,7 @@ pnpm build
 
 ### 커밋 컨벤션
 
-```
+```text
 feat: 새로운 기능 추가
 fix: 버그 수정
 refactor: 코드 리팩토링
