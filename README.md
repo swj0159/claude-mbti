@@ -22,7 +22,7 @@ MBTI Lab은 12개의 질문으로 빠르게 MBTI 성격 유형을 확인할 수 
 | 언어 | TypeScript |
 | 스타일링 | Tailwind CSS |
 | 상태 관리 | Zustand |
-| 배포 | Vercel |
+| 배포 | GitHub Pages |
 
 ## 시작하기
 
@@ -102,9 +102,9 @@ NEXT_PUBLIC_SITE_URL=  # 사이트 URL
 
 ## 배포
 
-Vercel을 통한 자동 배포가 설정되어 있습니다. `main` 브랜치에 푸시하면 자동으로 배포됩니다.
+GitHub Actions를 통한 자동 배포가 설정되어 있습니다. `main` 브랜치에 푸시하면 자동으로 GitHub Pages에 배포됩니다.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/swj0159/claude-mbti)
+**라이브 데모:** [https://swj0159.github.io/claude-mbti/](https://swj0159.github.io/claude-mbti/)
 
 ## 라이선스
 
