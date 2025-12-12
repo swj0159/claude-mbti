@@ -1,101 +1,208 @@
-import Image from "next/image";
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Header from '@/components/ui/Header';
+import Footer from '@/components/ui/Footer';
+import ResumeTestModal from '@/components/ui/ResumeTestModal';
+import { mbtiTypes } from '@/lib/mbtiTypes';
+import { MbtiType } from '@/lib/types';
+import { useTestStore } from '@/stores/testStore';
+import { questions } from '@/lib/questions';
+
+const mbtiGrid: MbtiType[][] = [
+  ['INTJ', 'INTP', 'ENTJ', 'ENTP'],
+  ['INFJ', 'INFP', 'ENFJ', 'ENFP'],
+  ['ISTJ', 'ISFJ', 'ESTJ', 'ESFJ'],
+  ['ISTP', 'ISFP', 'ESTP', 'ESFP'],
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const router = useRouter();
+  const { answers, currentIndex, isCompleted, reset } = useTestStore();
+  const [showResumeModal, setShowResumeModal] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Check for in-progress test
+  useEffect(() => {
+    if (mounted && answers.length > 0 && !isCompleted) {
+      setShowResumeModal(true);
+    }
+  }, [mounted, answers, isCompleted]);
+
+  const handleResume = () => {
+    setShowResumeModal(false);
+    router.push('/test');
+  };
+
+  const handleRestart = () => {
+    reset();
+    setShowResumeModal(false);
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+
+      <main className="flex-1">
+        {/* Hero Section */}
+        <section className="pt-32 pb-20 px-4 relative overflow-hidden">
+          <div className="absolute inset-0 gradient-hero opacity-5" />
+          <div className="max-w-4xl mx-auto text-center relative z-10">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-balance animate-fade-in">
+              3분 만에 알아보는
+              <br />
+              <span className="gradient-text">나의 MBTI</span>
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 animate-slide-up">
+              12개 질문으로 빠르게 확인하세요
+            </p>
+            <Link
+              href="/test"
+              className="inline-flex items-center gap-2 btn-primary text-lg px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 animate-slide-up"
+            >
+              테스트 시작하기
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
+              </svg>
+            </Link>
+
+            {/* Features */}
+            <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="p-6 rounded-2xl bg-white dark:bg-gray-800 shadow-lg">
+                <div className="text-3xl mb-3">⚡</div>
+                <h3 className="font-semibold mb-2">빠른 테스트</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  12문항으로 3분 안에 완료
+                </p>
+              </div>
+              <div className="p-6 rounded-2xl bg-white dark:bg-gray-800 shadow-lg">
+                <div className="text-3xl mb-3">🔒</div>
+                <h3 className="font-semibold mb-2">회원가입 불필요</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  개인정보 걱정 없이 바로 시작
+                </p>
+              </div>
+              <div className="p-6 rounded-2xl bg-white dark:bg-gray-800 shadow-lg">
+                <div className="text-3xl mb-3">📤</div>
+                <h3 className="font-semibold mb-2">쉬운 공유</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  이미지로 저장하고 SNS에 공유
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* MBTI Types Grid */}
+        <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">
+              16가지 성격 유형
+            </h2>
+
+            <div className="grid grid-cols-4 gap-2 md:gap-4">
+              {mbtiGrid.flat().map((type) => {
+                const info = mbtiTypes[type];
+                return (
+                  <div
+                    key={type}
+                    className="group relative p-3 md:p-4 rounded-xl bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105"
+                    style={{
+                      borderBottom: `4px solid ${info.color}`,
+                    }}
+                  >
+                    <div className="text-center">
+                      <div className="text-xl md:text-2xl mb-1">{info.emoji}</div>
+                      <div
+                        className="font-bold text-sm md:text-base"
+                        style={{ color: info.color }}
+                      >
+                        {type}
+                      </div>
+                      <div className="hidden md:block text-xs text-gray-500 mt-1">
+                        {info.name}
+                      </div>
+                    </div>
+
+                    {/* Tooltip */}
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
+                      {info.name}
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900" />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* How it works */}
+        <section className="py-20 px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">
+              이렇게 진행돼요
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-primary">1</span>
+                </div>
+                <h3 className="font-semibold mb-2">질문에 답하기</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  직관적으로 12개 질문에 답해주세요
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-secondary/10 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-secondary">2</span>
+                </div>
+                <h3 className="font-semibold mb-2">결과 확인</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  당신의 MBTI 유형과 상세 분석을 확인하세요
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-success/10 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-success">3</span>
+                </div>
+                <h3 className="font-semibold mb-2">친구와 공유</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  이미지로 저장하고 친구들과 공유하세요
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+      <Footer />
+
+      {/* Resume Test Modal */}
+      {showResumeModal && (
+        <ResumeTestModal
+          currentQuestion={currentIndex + 1}
+          totalQuestions={questions.length}
+          onResume={handleResume}
+          onRestart={handleRestart}
+        />
+      )}
     </div>
   );
 }
