@@ -60,7 +60,7 @@ export default function Home() {
               <span className="gradient-text">나의 MBTI</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 animate-slide-up">
-              12개 질문으로 빠르게 확인하세요
+              20개 질문으로 정확하게 확인하세요
             </p>
             <Link
               href="/test"
@@ -88,7 +88,7 @@ export default function Home() {
                 <div className="text-3xl mb-3">⚡</div>
                 <h3 className="font-semibold mb-2">빠른 테스트</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  12문항으로 3분 안에 완료
+                  20문항으로 5분 안에 완료
                 </p>
               </div>
               <div className="p-6 rounded-2xl bg-white dark:bg-gray-800 shadow-lg">
@@ -166,7 +166,7 @@ export default function Home() {
                 </div>
                 <h3 className="font-semibold mb-2">질문에 답하기</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  직관적으로 12개 질문에 답해주세요
+                  직관적으로 20개 질문에 답해주세요
                 </p>
               </div>
               <div className="text-center">
