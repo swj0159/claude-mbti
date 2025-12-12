@@ -13,7 +13,10 @@ import TabContent from '@/components/result/TabContent';
 import StatisticsChart from '@/components/result/StatisticsChart';
 import ShareButtons from '@/components/result/ShareButtons';
 
-// Default statistics (used as fallback)
+/**
+ * 통계 데이터를 불러오지 못했을 때 사용되는 기본 통계값
+ * @constant {Statistics}
+ */
 const defaultStatistics: Statistics = {
   stats: {
     INTJ: 5234, INTP: 4123, ENTJ: 3456, ENTP: 4567,
@@ -25,6 +28,15 @@ const defaultStatistics: Statistics = {
   lastUpdated: new Date().toISOString(),
 };
 
+/**
+ * MBTI 테스트 결과를 표시하는 페이지 컴포넌트
+ *
+ * @description
+ * 테스트 완료 후 사용자의 MBTI 유형, 상세 설명, 전체 통계를 보여줍니다.
+ * 결과가 없으면 홈으로 리다이렉트됩니다.
+ *
+ * @returns {JSX.Element} 결과 페이지 UI 또는 로딩 스피너
+ */
 export default function ResultPage() {
   const router = useRouter();
   const { result, answers, reset } = useTestStore();
@@ -41,6 +53,20 @@ export default function ResultPage() {
   useEffect(() => {
     if (!mounted || !result || hasSubmitted.current) return;
 
+    /**
+     * 테스트 결과를 서버에 제출하고 전체 통계를 조회하는 함수
+     *
+     * @async
+     * @function submitAndFetchStats
+     * @returns {Promise<void>} 반환값 없음
+     * @throws 네트워크 오류 시 콘솔에 에러 로깅 (UI에는 영향 없음)
+     *
+     * @description
+     * 1. hasSubmitted 플래그로 중복 실행 방지
+     * 2. POST /api/submit-result로 결과 제출
+     * 3. GET /api/statistics로 통계 조회
+     * 4. 성공/실패 관계없이 로딩 상태 해제
+     */
     const submitAndFetchStats = async () => {
       hasSubmitted.current = true;
 
@@ -89,6 +115,18 @@ export default function ResultPage() {
 
   const typeInfo = mbtiTypes[result];
 
+  /**
+   * MBTI 결과 이미지를 생성하고 다운로드하는 핸들러
+   *
+   * @async
+   * @function handleGenerateImage
+   * @returns {Promise<void>} 반환값 없음
+   * @throws 이미지 생성 실패 시 alert으로 사용자에게 알림
+   *
+   * @description
+   * Canvas API를 사용해 결과 카드 이미지를 생성하고,
+   * PNG 파일로 자동 다운로드합니다.
+   */
   const handleGenerateImage = async () => {
     try {
       const blob = await generateResultImage(typeInfo);
@@ -99,6 +137,15 @@ export default function ResultPage() {
     }
   };
 
+  /**
+   * 테스트를 다시 시작하는 핸들러
+   *
+   * @function handleRetake
+   * @returns {void} 반환값 없음
+   *
+   * @description
+   * Zustand 스토어를 초기화하고 테스트 페이지로 이동합니다.
+   */
   const handleRetake = () => {
     reset();
     router.push('/test');
