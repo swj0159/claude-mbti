@@ -54,7 +54,7 @@ typescript 5.9.3
 
 ## 프로젝트 구조
 
-```
+```bash
 src/
 ├── app/                    # Next.js App Router
 │   ├── page.tsx           # 랜딩 페이지 (/)
@@ -359,7 +359,7 @@ NEXT_PUBLIC_SITE_URL=  # 사이트 URL (공유용)
 
 ### 브랜치 전략
 
-```
+```bash
 main          # 프로덕션
 ├── develop   # 개발 통합
 ├── feature/* # 기능 개발
@@ -369,7 +369,7 @@ main          # 프로덕션
 
 ### 커밋 메시지
 
-```
+```bash
 feat: 새로운 기능 추가
 fix: 버그 수정
 refactor: 코드 리팩토링
@@ -381,7 +381,7 @@ chore: 빌드, 설정 변경
 
 예시:
 
-```
+```bash
 feat: 12문항 MBTI 테스트 질문 컴포넌트 구현
 fix: 동점 시 MBTI 타입 계산 오류 수정
 refactor: 결과 페이지 컴포넌트 분리

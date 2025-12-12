@@ -55,7 +55,7 @@ export default function Home() {
           <div className="absolute inset-0 gradient-hero opacity-5" />
           <div className="max-w-4xl mx-auto text-center relative z-10">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-balance animate-fade-in">
-              3분 만에 알아보는
+              5분 만에 알아보는
               <br />
               <span className="gradient-text">나의 MBTI</span>
             </h1>
