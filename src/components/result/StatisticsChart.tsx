@@ -1,7 +1,6 @@
 'use client';
 
 import { MbtiType, Statistics } from '@/lib/types';
-import { mbtiTypes } from '@/lib/mbtiTypes';
 
 interface StatisticsChartProps {
   stats: Statistics;
