@@ -152,14 +152,14 @@ export default function ResultPage() {
   };
 
   return (
-    <div className="min-h-screen pb-20">
+    <div className="min-h-screen pb-32">
       <Header />
 
-      <main className="pt-24 px-4">
-        <div className="max-w-xl mx-auto">
+      <main className="pt-32 px-6">
+        <div className="max-w-3xl mx-auto">
           {/* Confetti animation placeholder */}
-          <div className="text-center mb-6 animate-fade-in">
-            <span className="text-4xl">🎉</span>
+          <div className="text-center mb-10 animate-fade-in">
+            <span className="text-5xl">🎉</span>
           </div>
 
           {/* Result Card */}
@@ -177,7 +177,7 @@ export default function ResultPage() {
           {/* Retake Button */}
           <button
             onClick={handleRetake}
-            className="w-full mt-4 py-3 text-center text-gray-600 dark:text-gray-400 hover:text-primary transition-colors"
+            className="w-full mt-8 py-4 text-center font-medium hover:text-muted transition-colors duration-smooth"
           >
             다시 테스트하기
           </button>
@@ -186,7 +186,7 @@ export default function ResultPage() {
           <Link
             href="/"
             onClick={reset}
-            className="block w-full mt-2 py-3 text-center text-sm text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+            className="block w-full mt-4 py-4 text-center text-sm text-muted hover:text-foreground transition-colors duration-smooth"
           >
             홈으로 돌아가기
           </Link>

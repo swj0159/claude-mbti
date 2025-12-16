@@ -23,18 +23,18 @@ export default function StatisticsChart({ stats, userType, loading }: Statistics
   // Skeleton loading UI
   if (loading) {
     return (
-      <div className="mt-10 p-6 bg-gray-50 dark:bg-gray-800 rounded-2xl animate-pulse">
-        <div className="text-center mb-6">
-          <div className="h-6 w-40 bg-gray-200 dark:bg-gray-700 rounded mx-auto mb-2" />
-          <div className="h-10 w-32 bg-gray-200 dark:bg-gray-700 rounded mx-auto mb-1" />
-          <div className="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded mx-auto" />
+      <div className="mt-16 p-12 border border-border rounded animate-pulse">
+        <div className="text-center mb-10">
+          <div className="h-6 w-40 bg-border rounded mx-auto mb-3" />
+          <div className="h-12 w-32 bg-border rounded mx-auto mb-2" />
+          <div className="h-4 w-24 bg-border rounded mx-auto" />
         </div>
-        <div className="space-y-2">
+        <div className="space-y-3">
           {MBTI_ORDER.map((type) => (
-            <div key={type} className="flex items-center gap-2">
-              <div className="w-12 h-4 bg-gray-200 dark:bg-gray-700 rounded" />
-              <div className="flex-1 h-6 bg-gray-200 dark:bg-gray-700 rounded-full" />
-              <div className="w-14 h-4 bg-gray-200 dark:bg-gray-700 rounded" />
+            <div key={type} className="flex items-center gap-3">
+              <div className="w-12 h-4 bg-border rounded" />
+              <div className="flex-1 h-2 bg-border rounded-full" />
+              <div className="w-14 h-4 bg-border rounded" />
             </div>
           ))}
         </div>
@@ -43,48 +43,43 @@ export default function StatisticsChart({ stats, userType, loading }: Statistics
   }
 
   return (
-    <div className="mt-10 p-6 bg-gray-50 dark:bg-gray-800 rounded-2xl">
-      <div className="text-center mb-6">
-        <h3 className="text-lg font-semibold mb-2">당신과 같은 유형은...</h3>
-        <p className="text-3xl font-bold text-primary">
-          전체의 {userPercentage}%
+    <div className="mt-16 p-12 border border-border rounded">
+      <div className="text-center mb-12">
+        <h3 className="text-xl font-semibold mb-4 text-muted">당신과 같은 유형은...</h3>
+        <p className="text-5xl font-bold mb-3">
+          {userPercentage}%
         </p>
-        <p className="text-sm text-gray-500 mt-1">
+        <p className="text-caption text-muted">
           총 {stats.total.toLocaleString()}명 참여
         </p>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-3">
         {MBTI_ORDER.map((type) => {
           const count = stats.stats[type] || 0;
           const percentage = (count / maxCount) * 100;
           const isUserType = type === userType;
-          const typeInfo = mbtiTypes[type];
 
           return (
-            <div key={type} className="flex items-center gap-2">
+            <div key={type} className="flex items-center gap-4">
               <span
-                className={`w-12 text-xs font-mono font-semibold ${
-                  isUserType ? 'text-primary' : 'text-gray-500'
+                className={`w-12 text-sm font-mono font-semibold ${
+                  isUserType ? 'text-primary' : 'text-muted'
                 }`}
               >
                 {type}
               </span>
-              <div className="flex-1 h-6 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+              <div className="flex-1 h-2 bg-border rounded-full overflow-hidden">
                 <div
-                  className="h-full rounded-full transition-all duration-500"
-                  style={{
-                    width: `${percentage}%`,
-                    backgroundColor: isUserType ? typeInfo.color : '#94a3b8',
-                  }}
+                  className={`h-full rounded-full transition-all duration-smooth ${
+                    isUserType ? 'bg-primary' : 'bg-accent'
+                  }`}
+                  style={{ width: `${percentage}%` }}
                 />
               </div>
-              <span className="w-14 text-right text-xs text-gray-500">
+              <span className={`w-14 text-right text-sm ${isUserType ? 'font-semibold' : 'text-muted'}`}>
                 {((count / stats.total) * 100).toFixed(1)}%
               </span>
-              {isUserType && (
-                <span className="text-xs text-primary font-semibold">← YOU</span>
-              )}
             </div>
           );
         })}

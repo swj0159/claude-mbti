@@ -150,12 +150,12 @@ export default function ShareButtons({ typeInfo, onGenerateImage }: ShareButtons
   }, [typeInfo, handleCopyLink]);
 
   return (
-    <div className="mt-8 space-y-4">
+    <div className="mt-12 space-y-4">
       {/* Primary Action - Image Download */}
       <button
         onClick={handleImageDownload}
         disabled={isGenerating}
-        className="w-full btn-primary flex items-center justify-center gap-2 py-4"
+        className="w-full btn-primary flex items-center justify-center gap-2"
       >
         {isGenerating ? (
           <>
@@ -192,15 +192,11 @@ export default function ShareButtons({ typeInfo, onGenerateImage }: ShareButtons
       </button>
 
       {/* Secondary Actions */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-4">
         <button
           onClick={handleKakaoShare}
-          className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-200 bg-[#FEE500] text-[#191919] hover:bg-[#FAE100] active:scale-95"
+          className="flex items-center justify-center gap-2 px-6 py-4 rounded font-semibold transition-colors duration-smooth bg-[#FEE500] text-[#191919] hover:bg-[#FAE100]"
         >
-          {/* Kakao icon */}
-          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 3c-5.523 0-10 3.582-10 8 0 2.728 1.758 5.132 4.43 6.526-.161.582-.533 2.109-.61 2.44-.095.407.152.401.32.292.131-.085 2.085-1.39 2.935-1.955.612.091 1.244.139 1.89.139 5.523 0 10-3.582 10-8s-4.477-8-10-8z"/>
-          </svg>
           카카오톡
         </button>
 
@@ -208,14 +204,6 @@ export default function ShareButtons({ typeInfo, onGenerateImage }: ShareButtons
           onClick={handleShare}
           className="btn-secondary flex items-center justify-center gap-2"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-            />
-          </svg>
           공유하기
         </button>
       </div>
@@ -223,7 +211,7 @@ export default function ShareButtons({ typeInfo, onGenerateImage }: ShareButtons
       {/* Link Copy */}
       <button
         onClick={handleCopyLink}
-        className="w-full py-3 text-center text-gray-600 dark:text-gray-400 hover:text-primary transition-colors text-sm"
+        className="w-full py-4 text-center text-muted hover:text-foreground transition-colors duration-smooth text-sm"
       >
         링크 복사하기
       </button>

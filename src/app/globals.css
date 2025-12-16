@@ -6,75 +6,62 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #212529;
-  --surface: #F8F9FA;
+  --foreground: #000000;
+  --surface: #fafafa;
+  --border: #e0e0e0;
 }
 
 .dark {
-  --background: #1A1A1A;
-  --foreground: #FFFFFF;
-  --surface: #2D2D2D;
+  --background: #000000;
+  --foreground: #ffffff;
+  --surface: #0a0a0a;
+  --border: #1a1a1a;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-primary text-white px-6 py-3 rounded-xl font-medium
-           hover:bg-primary-dark transition-all duration-200
-           focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:outline-none
-           active:scale-95;
+    @apply bg-primary text-white px-8 py-4 rounded font-semibold
+           hover:bg-accent transition-colors duration-smooth
+           focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4
+           dark:bg-white dark:text-black dark:hover:bg-gray-100;
   }
 
   .btn-secondary {
-    @apply bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-medium
-           hover:bg-gray-300 transition-all duration-200
-           focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:outline-none
-           active:scale-95 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600;
+    @apply bg-transparent border-2 border-primary text-primary px-8 py-4 rounded font-semibold
+           hover:bg-primary hover:text-white transition-colors duration-smooth
+           focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4
+           dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black;
   }
 
   .option-button {
-    @apply w-full py-4 px-6 rounded-xl border-2 border-gray-200
-           text-left text-gray-700 font-medium
-           hover:border-primary hover:bg-primary/5
-           transition-all duration-200
-           focus:ring-2 focus:ring-primary focus:outline-none
-           dark:border-gray-600 dark:text-gray-200 dark:hover:border-primary;
+    @apply w-full py-6 px-8 rounded border border-border
+           text-left text-foreground font-normal
+           hover:border-primary transition-colors duration-smooth
+           focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-4
+           dark:border-border;
   }
 
   .option-button-selected {
-    @apply border-primary bg-primary/10 text-primary
-           dark:border-primary dark:bg-primary/20;
+    @apply border-primary bg-primary text-white
+           dark:border-white dark:bg-white dark:text-black;
   }
 
   .card {
-    @apply bg-white rounded-2xl shadow-lg p-6
-           dark:bg-[#2D2D2D];
+    @apply bg-surface rounded border border-border p-8
+           dark:bg-surface dark:border-border;
   }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
-  }
-
-  .gradient-primary {
-    background: linear-gradient(135deg, #4A90E2 0%, #7B68EE 100%);
-  }
-
-  .gradient-hero {
-    background: linear-gradient(135deg, #4A90E2 0%, #7B68EE 50%, #FF7F50 100%);
-  }
-
-  .gradient-text {
-    background: linear-gradient(135deg, #4A90E2 0%, #7B68EE 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
   }
 }

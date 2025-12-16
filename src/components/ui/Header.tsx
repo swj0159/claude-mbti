@@ -12,12 +12,12 @@ export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
-      <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
+      <div className="max-w-5xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* 로고 */}
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-2xl">🧪</span>
-          <span className="font-bold text-xl gradient-text">
+        <Link href="/" className="flex items-center gap-3 hover:opacity-70 transition-opacity">
+          <span className="text-3xl">🧪</span>
+          <span className="font-bold text-2xl">
             MBTI Lab
           </span>
         </Link>
@@ -111,7 +111,7 @@ export default function Header() {
           ) : (
             <Link
               href="/login"
-              className="px-4 py-2 text-sm font-medium text-primary hover:text-primary-dark transition-colors"
+              className="px-4 py-2 text-sm font-medium hover:text-muted transition-colors duration-smooth"
             >
               로그인
             </Link>

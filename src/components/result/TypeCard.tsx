@@ -8,34 +8,21 @@ interface TypeCardProps {
 
 export default function TypeCard({ typeInfo }: TypeCardProps) {
   return (
-    <div
-      className="text-center py-8 px-6 rounded-3xl"
-      style={{
-        background: `linear-gradient(135deg, ${typeInfo.color}15 0%, ${typeInfo.color}05 100%)`,
-        borderTop: `4px solid ${typeInfo.color}`,
-      }}
-    >
-      <div className="text-5xl mb-4">{typeInfo.emoji}</div>
-      <div
-        className="text-4xl md:text-5xl font-bold mb-2 tracking-wider"
-        style={{ color: typeInfo.color }}
-      >
+    <div className="text-center py-16 px-8 border border-border rounded">
+      <div className="text-7xl mb-8">{typeInfo.emoji}</div>
+      <div className="text-5xl md:text-6xl font-bold mb-4 tracking-tight">
         {typeInfo.code}
       </div>
-      <h1 className="text-xl md:text-2xl font-semibold mb-3">{typeInfo.name}</h1>
-      <p className="text-gray-600 dark:text-gray-400">{typeInfo.summary}</p>
+      <h1 className="text-2xl md:text-3xl font-semibold mb-6">{typeInfo.name}</h1>
+      <p className="text-body-lg text-muted max-w-2xl mx-auto">{typeInfo.summary}</p>
 
-      <div className="flex flex-wrap justify-center gap-2 mt-6">
+      <div className="flex flex-wrap justify-center gap-3 mt-10">
         {typeInfo.keywords.map((keyword, index) => (
           <span
             key={index}
-            className="px-3 py-1 text-sm rounded-full"
-            style={{
-              backgroundColor: `${typeInfo.color}15`,
-              color: typeInfo.color,
-            }}
+            className="px-4 py-2 text-sm border border-border rounded"
           >
-            #{keyword}
+            {keyword}
           </span>
         ))}
       </div>

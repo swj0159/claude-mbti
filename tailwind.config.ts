@@ -12,14 +12,13 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        primary: "#4A90E2",
-        "primary-dark": "#3A7BC8",
-        secondary: "#7B68EE",
-        success: "#28A745",
-        warning: "#FFC107",
-        error: "#DC3545",
-        info: "#17A2B8",
-        // MBTI Type Colors
+        surface: "var(--surface)",
+        border: "var(--border)",
+        // Minimal color palette - 절제된 색상
+        primary: "#0F172A",      // Slate - 신뢰감과 안정감 (순수 검정보다 눈에 부드러움)
+        accent: "#1E293B",       // Lighter slate for subtle elements
+        muted: "#64748B",        // Slate gray for secondary text
+        // MBTI Type Colors (유지)
         intj: "#6A5ACD",
         intp: "#20B2AA",
         entj: "#191970",
@@ -36,35 +35,45 @@ const config: Config = {
         isfp: "#E6E6FA",
         estp: "#DC143C",
         esfp: "#FF69B4",
-        // Gray scale
-        "gray-100": "#F8F9FA",
-        "gray-200": "#E9ECEF",
-        "gray-300": "#DEE2E6",
-        "gray-500": "#ADB5BD",
-        "gray-700": "#495057",
-        "gray-900": "#212529",
       },
       fontFamily: {
-        sans: ["Pretendard", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+        sans: ["Pretendard Variable", "Pretendard", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+      },
+      fontSize: {
+        // Larger, bolder typography scale
+        'display-lg': ['7rem', { lineHeight: '1', fontWeight: '800', letterSpacing: '-0.02em' }],
+        'display': ['5rem', { lineHeight: '1.1', fontWeight: '800', letterSpacing: '-0.02em' }],
+        'heading-xl': ['3.5rem', { lineHeight: '1.1', fontWeight: '700', letterSpacing: '-0.01em' }],
+        'heading-lg': ['2.5rem', { lineHeight: '1.2', fontWeight: '700', letterSpacing: '-0.01em' }],
+        'heading': ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
+        'body-lg': ['1.25rem', { lineHeight: '1.6', fontWeight: '400' }],
+        'body': ['1rem', { lineHeight: '1.7', fontWeight: '400' }],
+        'caption': ['0.875rem', { lineHeight: '1.5', fontWeight: '400' }],
+      },
+      spacing: {
+        // Generous spacing
+        '18': '4.5rem',
+        '22': '5.5rem',
+        '26': '6.5rem',
+        '30': '7.5rem',
+        '34': '8.5rem',
       },
       animation: {
-        "slide-up": "slideUp 0.3s ease-out",
-        "fade-in": "fadeIn 0.3s ease-out",
-        "progress": "progress 1s ease-out",
+        "fade-in": "fadeIn 0.4s ease-out",
+        "slide-up": "slideUp 0.4s ease-out",
       },
       keyframes: {
-        slideUp: {
-          "0%": { transform: "translateY(20px)", opacity: "0" },
-          "100%": { transform: "translateY(0)", opacity: "1" },
-        },
         fadeIn: {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
         },
-        progress: {
-          "0%": { width: "0%" },
-          "100%": { width: "var(--progress-width)" },
+        slideUp: {
+          "0%": { transform: "translateY(10px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
         },
+      },
+      transitionDuration: {
+        'smooth': '250ms',
       },
     },
   },

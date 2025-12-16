@@ -75,15 +75,15 @@ export default function TestPage() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header with Progress */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 px-4 py-4">
-        <div className="max-w-xl mx-auto">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border px-6 py-6">
+        <div className="max-w-2xl mx-auto">
           <ProgressBar current={currentIndex} total={questions.length} />
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 pt-24 pb-32 px-4">
-        <div className="max-w-xl mx-auto">
+      <main className="flex-1 pt-32 pb-40 px-6">
+        <div className="max-w-2xl mx-auto">
           <QuestionCard
             key={currentQuestion.id}
             question={currentQuestion}
@@ -94,23 +94,20 @@ export default function TestPage() {
       </main>
 
       {/* Navigation */}
-      <footer className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-md border-t border-gray-200 dark:border-gray-700 px-4 py-4">
-        <div className="max-w-xl mx-auto flex justify-between items-center gap-4">
+      <footer className="fixed bottom-0 left-0 right-0 bg-background border-t border-border px-6 py-6">
+        <div className="max-w-2xl mx-auto flex justify-between items-center gap-4">
           <button
             onClick={handlePrev}
             disabled={currentIndex === 0}
             className={`
-              flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all
+              px-6 py-3 font-medium transition-colors duration-smooth
               ${
                 currentIndex === 0
-                  ? 'text-gray-400 cursor-not-allowed'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  ? 'text-muted cursor-not-allowed'
+                  : 'text-foreground hover:text-primary'
               }
             `}
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
             이전
           </button>
 
@@ -118,18 +115,15 @@ export default function TestPage() {
             onClick={handleNext}
             disabled={!canGoNext()}
             className={`
-              flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all
+              px-8 py-3 font-semibold rounded transition-colors duration-smooth
               ${
                 canGoNext()
-                  ? 'btn-primary'
-                  : 'bg-gray-200 text-gray-400 cursor-not-allowed dark:bg-gray-700'
+                  ? 'bg-primary text-white hover:bg-accent'
+                  : 'bg-border text-muted cursor-not-allowed'
               }
             `}
           >
             {isLastQuestion() ? '결과 보기' : '다음'}
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
           </button>
         </div>
       </footer>
@@ -138,21 +132,9 @@ export default function TestPage() {
       <Link
         href="/"
         onClick={reset}
-        className="fixed top-4 left-4 z-50 p-2 rounded-full bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-all"
+        className="fixed top-6 left-6 z-50 text-sm text-muted hover:text-foreground transition-colors duration-smooth"
       >
-        <svg
-          className="w-5 h-5 text-gray-600 dark:text-gray-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
+        ← 홈
       </Link>
     </div>
   );

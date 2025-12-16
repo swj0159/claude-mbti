@@ -79,21 +79,21 @@ MBTI Lab은 사용자가 20개의 질문에 답하면 16가지 MBTI 성격 유�
 
 ### Backend
 
-| 기술               | 버전   | 설명                      |
-| ------------------ | ------ | ------------------------- |
-| Next.js API Routes | -      | Serverless API            |
-| Prisma             | 6.19.x | ORM                       |
-| PostgreSQL         | 15+    | 데이터베이스              |
-| JWT (jose)         | 6.x    | 인증 토큰                 |
-| bcryptjs           | 3.x    | 비밀번호 해싱             |
+| 기술               | 버전   | 설명           |
+| ------------------ | ------ | -------------- |
+| Next.js API Routes | -      | Serverless API |
+| Prisma             | 6.19.x | ORM            |
+| PostgreSQL         | 15+    | 데이터베이스   |
+| JWT (jose)         | 6.x    | 인증 토큰      |
+| bcryptjs           | 3.x    | 비밀번호 해싱  |
 
 ### Infrastructure
 
-| 기술           | 설명                    |
-| -------------- | ----------------------- |
-| Vercel         | 호스팅 및 배포          |
-| Docker Compose | 로컬 PostgreSQL 환경    |
-| GitHub Pages   | 정적 배포 (대안)        |
+| 기술           | 설명                 |
+| -------------- | -------------------- |
+| Vercel         | 호스팅 및 배포       |
+| Docker Compose | 로컬 PostgreSQL 환경 |
+| GitHub Pages   | 정적 배포 (대안)     |
 
 ## 🚀 시작하기
 
@@ -314,7 +314,9 @@ curl http://localhost:3000/api/statistics
 
 ```typescript
 // Response (200)
-{ message: "로그아웃 성공" }
+{
+  message: '로그아웃 성공';
+}
 ```
 
 #### POST /api/auth/refresh
@@ -323,7 +325,9 @@ Refresh Token으로 Access Token을 갱신합니다.
 
 ```typescript
 // Response (200)
-{ message: "토큰 갱신 성공" }
+{
+  message: '토큰 갱신 성공';
+}
 ```
 
 #### GET /api/auth/me
@@ -332,7 +336,11 @@ Refresh Token으로 Access Token을 갱신합니다.
 
 ```typescript
 // Response (200)
-{ user: { id, email, nickname, profileImage } }
+{
+  user: {
+    id, email, nickname, profileImage;
+  }
+}
 ```
 
 #### GET /api/auth/kakao
@@ -369,14 +377,14 @@ KAKAO_CLIENT_ID="your-kakao-rest-api-key"
 KAKAO_CLIENT_SECRET="your-kakao-client-secret"
 ```
 
-| 변수                        | 필수 | 설명                     |
-| --------------------------- | ---- | ------------------------ |
-| DATABASE_URL                | ✅   | PostgreSQL 연결 문자열   |
-| JWT_SECRET                  | ✅   | Access Token 서명 키     |
-| JWT_REFRESH_SECRET          | ✅   | Refresh Token 서명 키    |
-| NEXT_PUBLIC_BASE_URL        | ✅   | 앱 기본 URL              |
-| KAKAO_CLIENT_ID             | ❌   | 카카오 로그인 시 필요    |
-| KAKAO_CLIENT_SECRET         | ❌   | 카카오 로그인 시 필요    |
+| 변수                 | 필수 | 설명                   |
+| -------------------- | ---- | ---------------------- |
+| DATABASE_URL         | ✅   | PostgreSQL 연결 문자열 |
+| JWT_SECRET           | ✅   | Access Token 서명 키   |
+| JWT_REFRESH_SECRET   | ✅   | Refresh Token 서명 키  |
+| NEXT_PUBLIC_BASE_URL | ✅   | 앱 기본 URL            |
+| KAKAO_CLIENT_ID      | ❌   | 카카오 로그인 시 필요  |
+| KAKAO_CLIENT_SECRET  | ❌   | 카카오 로그인 시 필요  |
 
 ## 📦 배포
 
@@ -431,3 +439,5 @@ chore: 빌드, 설정 변경
 <p align="center">
   Made with ❤️ by MBTI Lab Team
 </p>
+
+
