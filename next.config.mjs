@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
+const isVercel = process.env.VERCEL === '1';
 const nextConfig = {
-  output: "export",
-  basePath: process.env.NODE_ENV === "production" ? "/claude-mbti" : "",
-  assetPrefix: process.env.NODE_ENV === "production" ? "/claude-mbti" : "",
+  output: 'export',
+  basePath: isVercel ? '' : '/claude-mbti',
+  assetPrefix: isVercel ? '' : '/claude-mbti',
   images: {
     unoptimized: true,
   },
